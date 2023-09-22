@@ -22,8 +22,6 @@ public class GameData : MonoBehaviour
 		}
 	}
 
-	public ParticleSystem.MinMaxGradient GetActionStartGradient() => settings.actionStartColor;
-
 	public ParticleSystem.MinMaxGradient GetActionGradient(ActionEffect actionEffect)
 	{
 		switch (actionEffect)
@@ -46,7 +44,7 @@ public class GameData : MonoBehaviour
 				}
 			default:
 				{
-					return settings.attackColorGradient;
+					return settings.spawnColorGradient;
 				}
 
 		}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba0f938c0c0c904b97261747bc5b038, type: 3}
   m_Name: ActionData
   m_EditorClassIdentifier: 
-  actionStartColor:
+  spawnColorGradient:
     m_Mode: 2
     m_GradientMin:
       serializedVersion: 2
@@ -74,8 +74,8 @@ MonoBehaviour:
       m_ColorSpace: -1
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
-    m_ColorMin: {r: 1, g: 1, b: 1, a: 1}
-    m_ColorMax: {r: 1, g: 1, b: 1, a: 1}
+    m_ColorMin: {r: 0.1764706, g: 0.1372549, b: 1, a: 1}
+    m_ColorMax: {r: 0.9528302, g: 0.05946039, b: 0.04194841, a: 1}
   attackColorGradient:
     m_Mode: 2
     m_GradientMin:

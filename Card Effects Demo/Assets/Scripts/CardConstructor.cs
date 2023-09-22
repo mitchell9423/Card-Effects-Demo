@@ -5,29 +5,31 @@ using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.Playables;
+using static UnityEngine.ParticleSystem;
 
 public enum ActionEffect
 {
 	Attack,
 	Heal,
 	Shield,
+	Spawn,
 	Speed
 }
 
 public class CardConstructor : MonoBehaviour
 {
 	[SerializeField] GameEvent changeCard;
-	string cardName;
+	[SerializeField] string cardName;
 	[SerializeField] Vector3 rotation = Vector3.zero;
 	[SerializeField] Vector3 scale = Vector3.zero;
-	[SerializeField] List<ParticleSystem> particleSystems = new List<ParticleSystem>();
+	[SerializeField] List<ParticleSystemManager> particleSystems = new List<ParticleSystemManager>();
 
 	public void ChangeCard(string spriteName)
 	{
 		changeCard?.Invoke(this, PowerBarState.Paused);
 		cardName = spriteName;
 		SetSprite(spriteName);
-		particleSystems.ForEach(p => p.Play());
+		PlayActionEffect(ActionEffect.Spawn);
 	}
 
 	private void SetSprite(string spriteName)
@@ -59,47 +61,33 @@ public class CardConstructor : MonoBehaviour
 		{
 			if (Int32.Parse(cardName) <= 13)
 			{
-				StartCoroutine(PlayActionEffect(ActionEffect.Attack));
+				PlayActionEffect(ActionEffect.Attack);
 			}
 			else if (Int32.Parse(cardName) <= 33)
 			{
-				StartCoroutine(PlayActionEffect(ActionEffect.Shield));
+				PlayActionEffect(ActionEffect.Shield);
 			}
 			else if (Int32.Parse(cardName) <= 43)
 			{
-				StartCoroutine(PlayActionEffect(ActionEffect.Speed));
+				PlayActionEffect(ActionEffect.Speed);
 			}
 			else
 			{
-				StartCoroutine(PlayActionEffect(ActionEffect.Heal));
+				PlayActionEffect(ActionEffect.Heal);
 			}
 		}
 	}
 
-	IEnumerator PlayActionEffect(ActionEffect actionEffect)
+	void PlayActionEffect(ActionEffect actionEffect)
 	{
-		ParticleSystem.MinMaxGradient actionColorGradient = GameData.instance.GetActionGradient(actionEffect);
+		foreach (ParticleSystemManager particleSystem in particleSystems)
+		{
+			particleSystem.StartDelay = 0f;
 
-		ParticleSystem particleSystem = particleSystems[0];
+			particleSystem.ColorOverLife = GameData.instance.GetActionGradient(actionEffect);
 
-		ParticleSystem.MainModule main = particleSystem.main;
-		ParticleSystem.MinMaxGradient startColor = main.startColor;
-
-		float delay = main.startDelayMultiplier;
-		main.startDelayMultiplier = 0.0f;
-		main.startColor = GameData.instance.GetActionStartGradient();
-
-		ParticleSystem.ColorOverLifetimeModule colt = particleSystem.colorOverLifetime;
-		ParticleSystem.MinMaxGradient colorGradient = colt.color;
-		colt.color = actionColorGradient;
-
-		particleSystem.Play();
-
-		yield return new WaitUntil(() => particleSystem.isPlaying == false);
-
-		main.startColor = startColor;
-		main.startDelayMultiplier = delay;
-		colt.color = colorGradient;
+			particleSystem.Play();
+		}
 	}
 
 	public void AsignToSlot(Transform slotTransform)
@@ -107,5 +95,7 @@ public class CardConstructor : MonoBehaviour
 		transform.SetParent(slotTransform, false);
 		transform.localEulerAngles = rotation;
 		transform.localScale = scale;
+
+		particleSystems.ForEach(p => p.ReScale());
 	}
 }
