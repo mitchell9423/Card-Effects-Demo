@@ -9933,6 +9933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   changeCard: {fileID: 11400000, guid: d44d95357cd712a40a5e1f4f7b7b0ee6, type: 2}
+  damageEvent: {fileID: 0}
   cardName: 
   rotation: {x: 0, y: 0, z: -90}
   scale: {x: 0.15, y: 0.15, z: 0.15}
@@ -9952,6 +9953,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actionEvent: {fileID: 11400000, guid: 9c27abf65a3871541accb49fe762026d, type: 2}
+  damageEvent: {fileID: 11400000, guid: 6fff0595de3c99544ba5354e9a956f8a, type: 2}
   elapsedTime: 0
   timeInterval: 5
   m_Material: {fileID: 0}
