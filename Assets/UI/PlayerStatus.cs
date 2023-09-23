@@ -96,7 +96,7 @@ public class PlayerStatus : MonoBehaviour
 
 	void UpdateStatusBars()
 	{
-		healthBar.SetBarValue(HealthPercent);
-		manaBar.SetBarValue(ManaPercent);
+		healthBar.SetTargetValue(HealthPercent);
+		manaBar.SetTargetValue(ManaPercent);
 	}
 }

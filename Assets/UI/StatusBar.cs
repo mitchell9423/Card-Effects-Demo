@@ -43,7 +43,7 @@ public class StatusBar : MonoBehaviour
 			AnimateBar();
     }
 
-	public void SetBarValue(float target)
+	public void SetTargetValue(float target)
 	{
 		if (target > currentFillAmount)
 		{
